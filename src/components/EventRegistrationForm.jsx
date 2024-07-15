@@ -41,6 +41,8 @@ const validate = (values) => {
 };
 
 const EventRegistrationForm = () => {
+
+  
   const { values, errors, handleChange, handleBlur } = useForm(
     {
       name: '',
@@ -54,12 +56,38 @@ const EventRegistrationForm = () => {
 
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const validationErrors = validate(values);
+    const formDataSet = e.target;  
+    const sheetData = new FormData(formDataSet);
+    // console.log(values);
+
     if (Object.keys(validationErrors).length === 0) {
       setSubmitted(true);
     }
+
+   await fetch(
+      "https://script.google.com/macros/s/AKfycbwc1-es3JBbEzal2Vtus-OmB-jy_fLTVovEnTcfW6Jby0ncNAazoctFK3Y4NxCSKUsS8A/exec",
+      {
+        method: "POST",
+        body: sheetData,
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setValues({
+    name: '',
+    email: '',
+    age: '',
+    attendingWithGuest: '',
+    guestName:''
+    })
   };
 
   return (
@@ -136,7 +164,7 @@ const EventRegistrationForm = () => {
 
           <div>
             <button
-              type="submit"
+              type='submit'
               className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Submit

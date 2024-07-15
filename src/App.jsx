@@ -3,7 +3,7 @@ import EventRegistrationForm from './components/EventRegistrationForm';
 
 function App() {
   return (
-    <div className="App h-screen w-full bg-zinc-400">
+    <div className="App h-screen w-full ">
       <header className="bg-indigo-600 text-white py-4">
         <h1 className="text-center text-3xl">Event Registration Form</h1>
       </header>
